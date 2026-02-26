@@ -1,0 +1,461 @@
+[
+  {
+    "state": "AK",
+    "provider_count": 89,
+    "p25_rate": 105.32,
+    "p50_rate": 134.93,
+    "p75_rate": 162.09,
+    "p90_rate": 292.24,
+    "max_rate": 710.21
+  },
+  {
+    "state": "AL",
+    "provider_count": 278,
+    "p25_rate": 40.43,
+    "p50_rate": 60.04,
+    "p75_rate": 72.98,
+    "p90_rate": 90.58,
+    "max_rate": 335.72
+  },
+  {
+    "state": "AR",
+    "provider_count": 229,
+    "p25_rate": 37.54,
+    "p50_rate": 46.31,
+    "p75_rate": 55.63,
+    "p90_rate": 64.98,
+    "max_rate": 117.6
+  },
+  {
+    "state": "AZ",
+    "provider_count": 519,
+    "p25_rate": 52.52,
+    "p50_rate": 63.94,
+    "p75_rate": 75.66,
+    "p90_rate": 85.36,
+    "max_rate": 189.8
+  },
+  {
+    "state": "CA",
+    "provider_count": 761,
+    "p25_rate": 30.8,
+    "p50_rate": 48.87,
+    "p75_rate": 76.61,
+    "p90_rate": 109.98,
+    "max_rate": 475.38
+  },
+  {
+    "state": "CO",
+    "provider_count": 268,
+    "p25_rate": 58.1,
+    "p50_rate": 78.22,
+    "p75_rate": 95.7,
+    "p90_rate": 123.23,
+    "max_rate": 250.51
+  },
+  {
+    "state": "CT",
+    "provider_count": 119,
+    "p25_rate": 65.91,
+    "p50_rate": 83.01,
+    "p75_rate": 96.56,
+    "p90_rate": 128.55,
+    "max_rate": 380.77
+  },
+  {
+    "state": "DC",
+    "provider_count": 22,
+    "p25_rate": 83.37,
+    "p50_rate": 94.22,
+    "p75_rate": 113.44,
+    "p90_rate": 148.9,
+    "max_rate": 215.82
+  },
+  {
+    "state": "DE",
+    "provider_count": 42,
+    "p25_rate": 66.07,
+    "p50_rate": 93.88,
+    "p75_rate": 106.86,
+    "p90_rate": 140.25,
+    "max_rate": 222.64
+  },
+  {
+    "state": "FL",
+    "provider_count": 1060,
+    "p25_rate": 37.07,
+    "p50_rate": 48.3,
+    "p75_rate": 57.47,
+    "p90_rate": 67.8,
+    "max_rate": 274.6
+  },
+  {
+    "state": "GA",
+    "provider_count": 691,
+    "p25_rate": 42.67,
+    "p50_rate": 55.09,
+    "p75_rate": 71.54,
+    "p90_rate": 90.33,
+    "max_rate": 349.08
+  },
+  {
+    "state": "HI",
+    "provider_count": 62,
+    "p25_rate": 103.29,
+    "p50_rate": 114.77,
+    "p75_rate": 126.45,
+    "p90_rate": 141.82,
+    "max_rate": 224.47
+  },
+  {
+    "state": "IA",
+    "provider_count": 262,
+    "p25_rate": 67.64,
+    "p50_rate": 76.08,
+    "p75_rate": 84.45,
+    "p90_rate": 96.3,
+    "max_rate": 180.92
+  },
+  {
+    "state": "ID",
+    "provider_count": 96,
+    "p25_rate": 87.73,
+    "p50_rate": 109.04,
+    "p75_rate": 124.11,
+    "p90_rate": 145.45,
+    "max_rate": 234.78
+  },
+  {
+    "state": "IL",
+    "provider_count": 781,
+    "p25_rate": 51.95,
+    "p50_rate": 61.21,
+    "p75_rate": 73.26,
+    "p90_rate": 85.14,
+    "max_rate": 293.33
+  },
+  {
+    "state": "IN",
+    "provider_count": 426,
+    "p25_rate": 71.51,
+    "p50_rate": 79.43,
+    "p75_rate": 87.04,
+    "p90_rate": 94.94,
+    "max_rate": 174.44
+  },
+  {
+    "state": "KS",
+    "provider_count": 197,
+    "p25_rate": 67.89,
+    "p50_rate": 75.64,
+    "p75_rate": 83.48,
+    "p90_rate": 92.26,
+    "max_rate": 179.74
+  },
+  {
+    "state": "KY",
+    "provider_count": 324,
+    "p25_rate": 59.04,
+    "p50_rate": 67.78,
+    "p75_rate": 76.81,
+    "p90_rate": 86.34,
+    "max_rate": 152.78
+  },
+  {
+    "state": "LA",
+    "provider_count": 368,
+    "p25_rate": 52.7,
+    "p50_rate": 62.87,
+    "p75_rate": 71.04,
+    "p90_rate": 79.88,
+    "max_rate": 205.05
+  },
+  {
+    "state": "MA",
+    "provider_count": 201,
+    "p25_rate": 53.83,
+    "p50_rate": 71.47,
+    "p75_rate": 83.75,
+    "p90_rate": 95.5,
+    "max_rate": 188.35
+  },
+  {
+    "state": "MD",
+    "provider_count": 327,
+    "p25_rate": 77.89,
+    "p50_rate": 107.81,
+    "p75_rate": 127.07,
+    "p90_rate": 136.56,
+    "max_rate": 304.07
+  },
+  {
+    "state": "ME",
+    "provider_count": 115,
+    "p25_rate": 64.87,
+    "p50_rate": 77.05,
+    "p75_rate": 85.22,
+    "p90_rate": 95.3,
+    "max_rate": 156.06
+  },
+  {
+    "state": "MI",
+    "provider_count": 584,
+    "p25_rate": 56.05,
+    "p50_rate": 72.98,
+    "p75_rate": 87.6,
+    "p90_rate": 102.2,
+    "max_rate": 529.41
+  },
+  {
+    "state": "MN",
+    "provider_count": 457,
+    "p25_rate": 89.89,
+    "p50_rate": 99.7,
+    "p75_rate": 108.79,
+    "p90_rate": 116.13,
+    "max_rate": 189.66
+  },
+  {
+    "state": "MO",
+    "provider_count": 455,
+    "p25_rate": 61.89,
+    "p50_rate": 70.08,
+    "p75_rate": 77.65,
+    "p90_rate": 85.83,
+    "max_rate": 186.02
+  },
+  {
+    "state": "MS",
+    "provider_count": 280,
+    "p25_rate": 45.33,
+    "p50_rate": 54.81,
+    "p75_rate": 62.99,
+    "p90_rate": 69.9,
+    "max_rate": 129.33
+  },
+  {
+    "state": "MT",
+    "provider_count": 44,
+    "p25_rate": 101.74,
+    "p50_rate": 122.97,
+    "p75_rate": 133.46,
+    "p90_rate": 146.38,
+    "max_rate": 166.27
+  },
+  {
+    "state": "NC",
+    "provider_count": 631,
+    "p25_rate": 57.27,
+    "p50_rate": 66.33,
+    "p75_rate": 74.96,
+    "p90_rate": 82.81,
+    "max_rate": 196.49
+  },
+  {
+    "state": "ND",
+    "provider_count": 32,
+    "p25_rate": 82.09,
+    "p50_rate": 96.24,
+    "p75_rate": 118.1,
+    "p90_rate": 173.08,
+    "max_rate": 463.74
+  },
+  {
+    "state": "NE",
+    "provider_count": 203,
+    "p25_rate": 55.22,
+    "p50_rate": 74.01,
+    "p75_rate": 100.03,
+    "p90_rate": 176.8,
+    "max_rate": 356.93
+  },
+  {
+    "state": "NH",
+    "provider_count": 95,
+    "p25_rate": 39.52,
+    "p50_rate": 60.23,
+    "p75_rate": 73.33,
+    "p90_rate": 97.22,
+    "max_rate": 220
+  },
+  {
+    "state": "NJ",
+    "provider_count": 391,
+    "p25_rate": 35.21,
+    "p50_rate": 54.54,
+    "p75_rate": 85.96,
+    "p90_rate": 118.41,
+    "max_rate": 328.88
+  },
+  {
+    "state": "NM",
+    "provider_count": 123,
+    "p25_rate": 92.24,
+    "p50_rate": 122.55,
+    "p75_rate": 139.09,
+    "p90_rate": 149.53,
+    "max_rate": 201.78
+  },
+  {
+    "state": "NV",
+    "provider_count": 217,
+    "p25_rate": 58.78,
+    "p50_rate": 67.52,
+    "p75_rate": 76.82,
+    "p90_rate": 87.48,
+    "max_rate": 197.04
+  },
+  {
+    "state": "NY",
+    "provider_count": 1371,
+    "p25_rate": 34.35,
+    "p50_rate": 46.45,
+    "p75_rate": 68.71,
+    "p90_rate": 92.5,
+    "max_rate": 436.83
+  },
+  {
+    "state": "OH",
+    "provider_count": 808,
+    "p25_rate": 67.99,
+    "p50_rate": 76.34,
+    "p75_rate": 84.49,
+    "p90_rate": 92.49,
+    "max_rate": 232.75
+  },
+  {
+    "state": "OK",
+    "provider_count": 284,
+    "p25_rate": 61.04,
+    "p50_rate": 68.07,
+    "p75_rate": 74.66,
+    "p90_rate": 81.31,
+    "max_rate": 147.83
+  },
+  {
+    "state": "OR",
+    "provider_count": 274,
+    "p25_rate": 66.31,
+    "p50_rate": 77.14,
+    "p75_rate": 89.3,
+    "p90_rate": 102.19,
+    "max_rate": 1264.29
+  },
+  {
+    "state": "PA",
+    "provider_count": 741,
+    "p25_rate": 43.94,
+    "p50_rate": 60.36,
+    "p75_rate": 75.16,
+    "p90_rate": 89.93,
+    "max_rate": 358.46
+  },
+  {
+    "state": "RI",
+    "provider_count": 46,
+    "p25_rate": 58.92,
+    "p50_rate": 76.87,
+    "p75_rate": 91.64,
+    "p90_rate": 116.47,
+    "max_rate": 162.85
+  },
+  {
+    "state": "SC",
+    "provider_count": 336,
+    "p25_rate": 56.44,
+    "p50_rate": 66.7,
+    "p75_rate": 76.78,
+    "p90_rate": 87.98,
+    "max_rate": 187.85
+  },
+  {
+    "state": "SD",
+    "provider_count": 66,
+    "p25_rate": 90.93,
+    "p50_rate": 99.28,
+    "p75_rate": 105.34,
+    "p90_rate": 114.16,
+    "max_rate": 143.54
+  },
+  {
+    "state": "TN",
+    "provider_count": 454,
+    "p25_rate": 59.04,
+    "p50_rate": 66.72,
+    "p75_rate": 74.02,
+    "p90_rate": 81.66,
+    "max_rate": 179.13
+  },
+  {
+    "state": "TX",
+    "provider_count": 1301,
+    "p25_rate": 46.74,
+    "p50_rate": 55.06,
+    "p75_rate": 63.51,
+    "p90_rate": 71.93,
+    "max_rate": 231.33
+  },
+  {
+    "state": "UT",
+    "provider_count": 178,
+    "p25_rate": 75.5,
+    "p50_rate": 87.9,
+    "p75_rate": 98.45,
+    "p90_rate": 108.77,
+    "max_rate": 195.49
+  },
+  {
+    "state": "VA",
+    "provider_count": 435,
+    "p25_rate": 59.5,
+    "p50_rate": 70.93,
+    "p75_rate": 81.88,
+    "p90_rate": 92.65,
+    "max_rate": 190.26
+  },
+  {
+    "state": "VT",
+    "provider_count": 37,
+    "p25_rate": 65.56,
+    "p50_rate": 78.47,
+    "p75_rate": 90.55,
+    "p90_rate": 103.96,
+    "max_rate": 142.32
+  },
+  {
+    "state": "WA",
+    "provider_count": 346,
+    "p25_rate": 82.56,
+    "p50_rate": 93.31,
+    "p75_rate": 104.1,
+    "p90_rate": 114.47,
+    "max_rate": 230.16
+  },
+  {
+    "state": "WI",
+    "provider_count": 444,
+    "p25_rate": 88.76,
+    "p50_rate": 96.15,
+    "p75_rate": 103.28,
+    "p90_rate": 109.58,
+    "max_rate": 179.99
+  },
+  {
+    "state": "WV",
+    "provider_count": 142,
+    "p25_rate": 90.81,
+    "p50_rate": 97.74,
+    "p75_rate": 104.56,
+    "p90_rate": 112.8,
+    "max_rate": 159.81
+  },
+  {
+    "state": "WY",
+    "provider_count": 30,
+    "p25_rate": 97.07,
+    "p50_rate": 109.08,
+    "p75_rate": 118.41,
+    "p90_rate": 134.01,
+    "max_rate": 174.44
+  }
+]

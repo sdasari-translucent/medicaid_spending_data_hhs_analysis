@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "Bash(claude mcp connect:*)",
+      "mcp__mimilabs__mimilabs_data"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

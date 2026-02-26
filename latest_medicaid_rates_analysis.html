@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medicaid 99214 Payment Analysis</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #3a564b;
+        }
+        .controls {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        label {
+            font-weight: bold;
+            color: #333;
+        }
+        select, input {
+            padding: 8px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        select:focus, input:focus {
+            border-color: #3a564b;
+            outline: none;
+        }
+        .data-table {
+            overflow-x: auto;
+            margin-top: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 14px;
+        }
+        th, td {
+            padding: 12px 8px;
+            text-align: right;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #3a564b;
+            color: white;
+            font-weight: bold;
+            position: sticky;
+            top: 0;
+        }
+        th:first-child, td:first-child {
+            text-align: left;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        tr:hover {
+            background-color: #e8f5e8;
+        }
+        .summary-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        .stat-card {
+            background: linear-gradient(135deg, #3a564b, #3a564b);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .stat-value {
+            font-size: 2em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .stat-label {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+        .methodology {
+            margin-top: 50px;
+            padding-top: 30px;
+            border-top: 3px solid #3a564b;
+        }
+        .toggle-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .toggle-btn {
+            padding: 10px 20px;
+            border: 2px solid #3a564b;
+            background: white;
+            color: #3a564b;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        .toggle-btn.active {
+            background: #3a564b;
+            color: white;
+        }
+        .toggle-btn:hover {
+            background: #3a564b;
+            border-color: #3a564b;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Medicaid 99214 Payment Analysis</h1>
+        </div>
+
+        <div class="toggle-buttons">
+            <button class="toggle-btn active" onclick="showData('health_system')">Health System</button>
+            <button class="toggle-btn" onclick="showData('large_group')">Large Group</button>
+            <button class="toggle-btn" onclick="showData('medium_group')">Medium Group</button>
+            <button class="toggle-btn" onclick="showData('small_group')">Small Group</button>
+        </div>
+
+        <div class="controls">
+            <div class="filter-group">
+                <label for="stateFilter">Filter by State:</label>
+                <select id="stateFilter" onchange="filterData()">
+                    <option value="">All States</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="minProviders">Min Provider Count:</label>
+                <input type="number" id="minProviders" value="0" onchange="filterData()">
+            </div>
+            <div class="filter-group">
+                <label for="sortBy">Sort by:</label>
+                <select id="sortBy" onchange="filterData()">
+                    <option value="provider_state">State</option>
+                    <option value="mean_payment">Mean Payment</option>
+                    <option value="median_payment">P50 Payment</option>
+                    <option value="provider_count">Provider Count</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="summary-stats" id="summaryStats"></div>
+
+        <div class="data-table">
+            <table id="dataTable">
+                <thead>
+                    <tr>
+                        <th>State</th>
+                        <th>Provider Count</th>
+                        <th>P25 ($)</th>
+                        <th>P50 ($)</th>
+                        <th>P75 ($)</th>
+                        <th>P90 ($)</th>
+                        <th>Mean ($)</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                </tbody>
+            </table>
+        </div>
+
+        <div class="methodology">
+            <h2>Data Sources & Methodology</h2>
+
+            <div style="margin-bottom: 20px;">
+                <h3>🏥 Provider Type Classification</h3>
+                <ul style="margin: 10px 0; padding-left: 20px; font-size: 0.9em;">
+                    <li><strong>Small Group:</strong> Independent groups with 1-9 physicians</li>
+                    <li><strong>Medium Group:</strong> Independent groups with 10-99 physicians</li>
+                    <li><strong>Large Group:</strong> Independent groups with >100 physicians</li>
+                    <li><strong>Health System:</strong> Providers affiliated with health systems via AHRQ linkage datasets</li>
+                    <li><strong>Overall:</strong> All providers combined regardless of affiliation</li>
+                </ul>
+            </div>
+
+            <div style="margin-top: 30px;">
+                <h3>📋 Data Source Reference</h3>
+                <ul style="margin: 10px 0; padding-left: 20px; font-size: 0.9em;">
+                    <li><strong>T-MSIS Medicaid claims (opendata.hhs.gov)</strong><br>
+                        <em>Purpose:</em> Provider-level payment data aggregated by NPI × HCPCS × month<br>
+                        <em>Filters Applied:</em> HCPCS Code 99214 (office visits only), Avg payment ≥$15 (excludes dual-eligible cost-sharing), ≥12 claims per provider (minimum volume), 2023-2024 data only</li>
+                    <li><strong>Payer machine-readable files (MRF)</strong><br>
+                        <em>Purpose:</em> Links individual providers (NPIs) to organizations (TINs) with practice size data</li>
+                    <li><strong>AHRQ Compendium of U.S. Health Systems</strong><br>
+                        <em>Purpose:</em> Identifies health systems and their member practices via PAC IDs</li>
+                    <li><strong>Mimilabs derived table (70% CMS/PECOS data, 30% payer MRF and state records)</strong><br>
+                        <em>Purpose:</em> Multi-source crosswalk linking NPIs to organizational identifiers (PAC IDs, CCNs, etc.)</li>
+                </ul>
+            </div>
+
+            <div style="font-size: 0.9em; color: #666; margin-top: 20px;">
+                <p><strong>Data Limitations:</strong></p>
+                <ul style="margin: 10px 0 20px 20px;">
+                    <li>AHRQ affiliation data is snapshot-based (~2018-2023 vintage) and may miss informal partnerships. Health system status determined by formal ownership/management relationships only.</li>
+                    <li>Medicaid provider spending data includes all Medicaid delivery models (Fee-for-Service, Managed Care Organizations, Primary Care Case Management, etc.). The underlying dataset does not allow filtering by specific payer or delivery model - payments represent blended rates across all Medicaid programs within each state.</li>
+                </ul>
+                <p><strong>Analysis Platform:</strong> Mimilabs</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Dataset will be loaded from JSON files - no fallback data
+        let datasets = {
+            health_system: [],
+            large_group: [],
+            medium_group: [],
+            small_group: []
+        };
+
+        let currentDataset = 'health_system';
+        let filteredData = [];
+
+        // Load JSON data for each provider type
+        async function loadDatasets() {
+            try {
+                console.log('Starting to load JSON datasets...');
+
+                // Load all group data from JSON files
+                console.log('Fetching JSON files...');
+                const [healthSystemResponse, largeGroupResponse, mediumGroupResponse, smallGroupResponse] = await Promise.all([
+                    fetch('health_system/medicaid_health_system_rates_99214.json').catch(e => { console.error('Health system fetch failed:', e); throw e; }),
+                    fetch('large_group/medicaid_large_group_rates_99214.json').catch(e => { console.error('Large group fetch failed:', e); throw e; }),
+                    fetch('medium_group/medicaid_medium_group_rates_99214.json').catch(e => { console.error('Medium group fetch failed:', e); throw e; }),
+                    fetch('small_group/medicaid_small_group_rates_99214.json').catch(e => { console.error('Small group fetch failed:', e); throw e; })
+                ]);
+
+                console.log('Fetch responses received:', {
+                    healthSystem: healthSystemResponse.status,
+                    largeGroup: largeGroupResponse.status,
+                    mediumGroup: mediumGroupResponse.status,
+                    smallGroup: smallGroupResponse.status
+                });
+
+                // Check if all responses are OK
+                if (!healthSystemResponse.ok) {
+                    console.error('Health system response not OK:', healthSystemResponse.status, healthSystemResponse.statusText);
+                    throw new Error(`Health system JSON failed: ${healthSystemResponse.status}`);
+                }
+                if (!largeGroupResponse.ok) {
+                    console.error('Large group response not OK:', largeGroupResponse.status, largeGroupResponse.statusText);
+                    throw new Error(`Large group JSON failed: ${largeGroupResponse.status}`);
+                }
+                if (!mediumGroupResponse.ok) {
+                    console.error('Medium group response not OK:', mediumGroupResponse.status, mediumGroupResponse.statusText);
+                    throw new Error(`Medium group JSON failed: ${mediumGroupResponse.status}`);
+                }
+                if (!smallGroupResponse.ok) {
+                    console.error('Small group response not OK:', smallGroupResponse.status, smallGroupResponse.statusText);
+                    throw new Error(`Small group JSON failed: ${smallGroupResponse.status}`);
+                }
+
+                console.log('All responses OK, parsing JSON...');
+                const [healthSystemData, largeGroupData, mediumGroupData, smallGroupData] = await Promise.all([
+                    healthSystemResponse.json().catch(e => { console.error('Health system JSON parse failed:', e); throw e; }),
+                    largeGroupResponse.json().catch(e => { console.error('Large group JSON parse failed:', e); throw e; }),
+                    mediumGroupResponse.json().catch(e => { console.error('Medium group JSON parse failed:', e); throw e; }),
+                    smallGroupResponse.json().catch(e => { console.error('Small group JSON parse failed:', e); throw e; })
+                ]);
+
+                console.log('JSON data loaded:');
+                console.log('healthSystemData type:', typeof healthSystemData, 'isArray:', Array.isArray(healthSystemData));
+                console.log('largeGroupData type:', typeof largeGroupData, 'isArray:', Array.isArray(largeGroupData));
+                console.log('mediumGroupData type:', typeof mediumGroupData, 'isArray:', Array.isArray(mediumGroupData));
+                console.log('smallGroupData type:', typeof smallGroupData, 'isArray:', Array.isArray(smallGroupData));
+
+                if (Array.isArray(healthSystemData)) console.log('healthSystemData length:', healthSystemData.length);
+                if (Array.isArray(largeGroupData)) console.log('largeGroupData length:', largeGroupData.length);
+                if (Array.isArray(mediumGroupData)) console.log('mediumGroupData length:', mediumGroupData.length);
+                if (Array.isArray(smallGroupData)) console.log('smallGroupData length:', smallGroupData.length);
+
+                // Transform JSON data to match the expected format (all JSON files are now direct arrays)
+                const transformData = (data) => {
+                    console.log('transformData called with:', typeof data, Array.isArray(data) ? `array of ${data.length}` : 'not an array');
+
+                    if (!Array.isArray(data)) {
+                        console.error('Data is not an array:', data);
+                        return [];
+                    }
+
+                    return data.map(item => ({
+                        provider_state: item.state,
+                        provider_count: item.provider_count,
+                        p25_payment: item.p25_rate,
+                        median_payment: item.p50_rate,
+                        p75_payment: item.p75_rate,
+                        p90_payment: item.p90_rate,
+                        max_payment: item.max_rate
+                    }));
+                };
+
+                console.log('Transforming data...');
+                datasets.health_system = transformData(healthSystemData);
+                datasets.large_group = transformData(largeGroupData);
+                datasets.medium_group = transformData(mediumGroupData);
+                datasets.small_group = transformData(smallGroupData);
+
+                console.log('Successfully loaded and transformed all datasets from JSON!');
+                console.log('Final dataset counts:', {
+                    healthSystem: datasets.health_system.length,
+                    largeGroup: datasets.large_group.length,
+                    mediumGroup: datasets.medium_group.length,
+                    smallGroup: datasets.small_group.length
+                });
+                return true;
+
+            } catch (error) {
+                console.error('DETAILED ERROR loading datasets:', error);
+                console.error('Error stack:', error.stack);
+                return false;
+            }
+        }
+
+        async function initializePage() {
+            // Load datasets first
+            const jsonLoadSuccess = await loadDatasets();
+
+            if (!jsonLoadSuccess) {
+                // Add a visible error message that JSON loading failed
+                const header = document.querySelector('.header');
+                const warning = document.createElement('div');
+                warning.style.cssText = 'background: #f8d7da; color: #721c24; padding: 15px; margin: 10px 0; border-radius: 5px; border: 1px solid #f5c6cb; text-align: center; font-size: 14px;';
+                warning.innerHTML = '❌ <strong>Error:</strong> Failed to load JSON data files. Check browser console for details. Serve this file via web server: <code>python3 -m http.server 8000</code>';
+                header.appendChild(warning);
+
+                // Don't try to render anything if we have no data
+                return;
+            }
+
+            // Populate state filter with all possible states
+            const allStates = [...new Set(Object.values(datasets).flat().map(row => row.provider_state))].sort();
+            const stateFilter = document.getElementById('stateFilter');
+            allStates.forEach(state => {
+                const option = document.createElement('option');
+                option.value = state;
+                option.textContent = state;
+                stateFilter.appendChild(option);
+            });
+
+            showData('health_system');
+        }
+
+        function showData(datasetName) {
+            currentDataset = datasetName;
+
+            // Update toggle button states
+            document.querySelectorAll('.toggle-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector(`button[onclick="showData('${datasetName}')"]`).classList.add('active');
+
+            filterData();
+        }
+
+        function filterData() {
+            const stateFilter = document.getElementById('stateFilter').value;
+            const minProviders = parseInt(document.getElementById('minProviders').value) || 0;
+            const sortBy = document.getElementById('sortBy').value;
+
+            filteredData = datasets[currentDataset].filter(row => {
+                return (!stateFilter || row.provider_state === stateFilter) &&
+                       row.provider_count >= minProviders;
+            });
+
+            // Sort data
+            filteredData.sort((a, b) => {
+                if (sortBy === 'provider_state') {
+                    return a[sortBy].localeCompare(b[sortBy]);
+                } else {
+                    return b[sortBy] - a[sortBy]; // Descending for numeric
+                }
+            });
+
+            renderTable();
+            renderSummaryStats();
+        }
+
+        function renderTable() {
+            const tbody = document.getElementById('tableBody');
+            tbody.innerHTML = '';
+
+            filteredData.forEach(row => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><strong>${row.provider_state}</strong></td>
+                    <td>${row.provider_count.toLocaleString()}</td>
+                    <td>$${row.p25_payment.toFixed(2)}</td>
+                    <td>$${row.median_payment.toFixed(2)}</td>
+                    <td>$${row.p75_payment.toFixed(2)}</td>
+                    <td>$${row.p90_payment.toFixed(2)}</td>
+                    <td>$${(row.mean_payment || ((row.p25_payment + row.median_payment + row.p75_payment) / 3)).toFixed(2)}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function renderSummaryStats() {
+            const summaryDiv = document.getElementById('summaryStats');
+
+            if (filteredData.length === 0) {
+                summaryDiv.innerHTML = '<div class="stat-card"><div class="stat-value">No Data</div></div>';
+                return;
+            }
+
+            const totalProviders = filteredData.reduce((sum, row) => sum + row.provider_count, 0);
+            const avgMean = filteredData.reduce((sum, row) => sum + (row.mean_payment || ((row.p25_payment + row.median_payment + row.p75_payment) / 3)), 0) / filteredData.length;
+            const avgMedian = filteredData.reduce((sum, row) => sum + row.median_payment, 0) / filteredData.length;
+
+            summaryDiv.innerHTML = `
+                <div class="stat-card">
+                    <div class="stat-value">${filteredData.length}</div>
+                    <div class="stat-label">States/Territories</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">${totalProviders.toLocaleString()}</div>
+                    <div class="stat-label">Total Providers</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">$${avgMean.toFixed(2)}</div>
+                    <div class="stat-label">Avg Mean Payment</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">$${avgMedian.toFixed(2)}</div>
+                    <div class="stat-label">Avg P50 Payment</div>
+                </div>
+            `;
+        }
+
+        // Initialize page when loaded
+        document.addEventListener('DOMContentLoaded', initializePage);
+    </script>
+</body>
+</html>
